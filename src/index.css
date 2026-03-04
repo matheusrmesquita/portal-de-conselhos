@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gdf-blue: #0062AE;
+  --color-gdf-light-blue: #4079bc;
+  --color-gdf-dark-gray: #607584;
+  --color-gdf-gray: #8e98a4;
+  --color-background: #F3F4F6;
+  --color-surface: #FFFFFF;
+  --color-primary: #2066af;
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================================
+   PADRÃO DE ACESSIBILIDADE GDF (ALTO CONTRASTE E FONTES)
+   ======================================================== */
+
+html {
+  transition: font-size 0.3s ease;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+    /* Regra de 2 (px) menor para mobile */
+  }
+}
+
+html.accessible-font-lg {
+  font-size: 18px;
+  /* Aumenta 12.5% */
+}
+
+@media (max-width: 768px) {
+  html.accessible-font-lg {
+    font-size: 16px;
+  }
+}
+
+html.accessible-font-xl {
+  font-size: 20px;
+  /* Aumenta 25% */
+}
+
+@media (max-width: 768px) {
+  html.accessible-font-xl {
+    font-size: 18px;
+  }
+}
+
+body.accessible-high-contrast {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+}
+
+/* FORÇA O FUNDO PARA PRETO NOS CONTAINERS E FUNDO DA PÁGINA (bg-gray-50) */
+body.accessible-high-contrast main,
+body.accessible-high-contrast .bg-gray-50 {
+  background-color: #000000 !important;
+}
+
+/* GERAL (Textos padrão em fundos pretos) */
+body.accessible-high-contrast h1,
+body.accessible-high-contrast h2,
+body.accessible-high-contrast h3,
+body.accessible-high-contrast h4,
+body.accessible-high-contrast h5,
+body.accessible-high-contrast h6,
+body.accessible-high-contrast p,
+body.accessible-high-contrast label,
+body.accessible-high-contrast th,
+body.accessible-high-contrast td,
+body.accessible-high-contrast li,
+body.accessible-high-contrast span,
+body.accessible-high-contrast a,
+body.accessible-high-contrast svg {
+  color: #FFFF00 !important;
+}
+
+/* CONTAINERS CLAROS (Cards, Modais, Dropdowns) VIRAM AMARELOS COM TEXTO PRETO */
+body.accessible-high-contrast .bg-white {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* FORÇA TEXTO PRETO DENTRO DE CONTAINERS AMARELOS */
+body.accessible-high-contrast .bg-white * {
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* UTILITÁRIO PARA ELEMENTOS QUE DEVEM SER PRETOS EM FUNDO AMARELO ("Conselhos em Destaque", "Ver Todos") */
+body.accessible-high-contrast .hc-black-on-yellow,
+body.accessible-high-contrast .hc-black-on-yellow * {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  padding: 0.2rem 0.5rem !important;
+  border-radius: 6px !important;
+}
+
+/* REMOVE FUNDOS RESIDUAIS DE TAGS DENTRO DOS CARDS AMARELOS */
+body.accessible-high-contrast .bg-white span[class*="bg-"] {
+  background-color: transparent !important;
+}
+
+/* INPUTS E SELECTS: fundo preto com texto amarelo e borda amarela (mesmo se dentro de caixas amarelas) */
+body.accessible-high-contrast input,
+body.accessible-high-contrast select,
+body.accessible-high-contrast textarea,
+body.accessible-high-contrast .bg-white input,
+body.accessible-high-contrast .bg-white select,
+body.accessible-high-contrast .bg-gray-50 select {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+  border: 1px solid #FFFF00 !important;
+}
+
+/* Ícones de chevrons do select também devem voltar para amarelo */
+body.accessible-high-contrast .bg-white .text-gray-400 {
+  color: #FFFF00 !important;
+}
+
+/* BOTÕES PRINCIPAIS E ELEMENTOS AZUIS VIRAM AMARELOS COM TEXTO/BORDAS PRETOS */
+body.accessible-high-contrast .bg-gdf-blue,
+body.accessible-high-contrast .bg-\[\#0062ae\],
+body.accessible-high-contrast button.bg-gdf-blue,
+body.accessible-high-contrast .bg-\[\#005191\],
+body.accessible-high-contrast button[class*="bg-gdf-blue"] {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Remove a cor azul de textos */
+body.accessible-high-contrast .text-gdf-blue,
+body.accessible-high-contrast .text-\[\#0062ae\] {
+  color: #FFFF00 !important;
+}
+
+/* Se houver texto azul (ou ícone azul) dentro de fundo amarelo, ele deve ser preto! */
+body.accessible-high-contrast .bg-white .text-gdf-blue,
+body.accessible-high-contrast .bg-white .text-\[\#0062ae\],
+body.accessible-high-contrast .bg-white .text-gdf-blue *,
+body.accessible-high-contrast .bg-white .bg-gdf-blue * {
+  color: #000000 !important;
+}
+
+/* HEADER E FOOTER (fundos escuros viram preto sólido com borda amarela para divisões) */
+body.accessible-high-contrast .bg-\[\#4a4a4a\],
+body.accessible-high-contrast footer {
+  background-color: #000000 !important;
+  border-bottom: 2px solid #FFFF00 !important;
+  border-top: 2px solid #FFFF00 !important;
+}
+
+/* IMAGENS E BACKGROUND-IMAGES: Restaura as imagens aplicando um filtro de escala de cinza e escurecimento para não ferir os olhos no tema escuro */
+body.accessible-high-contrast img,
+body.accessible-high-contrast [style*="background-image"] {
+  display: block !important;
+  filter: grayscale(100%) contrast(150%) brightness(0.4) !important;
+}
