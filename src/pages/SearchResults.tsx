@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { ChevronRight, FilterX, AlertCircle, ArrowRight, Info, ChevronLeft } from 'lucide-react';
-import { conselhosMock } from '../utils/mockData';
+import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 import type { Conselho } from '../utils/mockData';
 import HeroSearch from '../components/HeroSearch';
 import InfoModal from '../components/InfoModal';
@@ -140,7 +140,7 @@ export default function SearchResults() {
                                 className="group bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-100 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 min-h-[160px]"
                             >
                                 <div className="flex-1 w-full max-w-full">
-                                    <span className="inline-block bg-[#0062ae]/5 text-[#0062ae] text-[10px] font-bold px-3 py-1 rounded-full border border-[#0062ae]/10 uppercase tracking-wide mb-3">
+                                    <span className={`inline-block text-[10px] font-bold px-3 py-1 rounded-full border uppercase tracking-wide mb-3 ${getBadgeStyle(conselho.tipo)}`}>
                                         {conselho.tipo}
                                     </span>
                                     <h4 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-[#0062ae] transition-colors line-clamp-3">
@@ -178,8 +178,8 @@ export default function SearchResults() {
                                         key={i}
                                         onClick={() => setCurrentPage(i + 1)}
                                         className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === i + 1
-                                                ? 'bg-[#0062ae] text-white'
-                                                : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
+                                            ? 'bg-[#0062ae] text-white'
+                                            : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
                                             }`}
                                     >
                                         {i + 1}

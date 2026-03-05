@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import HeroSearch from '../components/HeroSearch';
 import InfoModal from '../components/InfoModal';
-import { conselhosMock } from '../utils/mockData';
+import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 import heroImage from '../assets/Imagem hero.jpg';
 import CountUp from 'react-countup';
 
@@ -136,7 +136,7 @@ export default function Home() {
                             className="group bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-100 transition-all flex flex-col h-full"
                         >
                             <div className="flex justify-between items-start mb-4">
-                                <span className="bg-[#0062ae]/5 text-[#0062ae] text-xs font-bold px-3 py-1 rounded-full border border-[#0062ae]/10 uppercase tracking-wide">
+                                <span className={`text-[10px] font-bold px-3 py-1 rounded-full border uppercase tracking-wide ${getBadgeStyle(conselho.tipo)}`}>
                                     {conselho.tipo}
                                 </span>
                             </div>

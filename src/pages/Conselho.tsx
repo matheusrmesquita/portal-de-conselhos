@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Download, Filter, Calendar, Users, FileText, Gavel, Scale, Info } from 'lucide-react';
-import { conselhosMock } from '../utils/mockData';
+import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 
 type TabType = 'legislacao' | 'reunioes' | 'atas' | 'membros' | 'decisoes';
 
@@ -56,10 +56,9 @@ export default function Conselho() {
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
-                                <span className="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full border border-blue-100 uppercase tracking-wide">
+                                <span className={`text-xs font-bold px-3 py-1 rounded-full border uppercase tracking-wide ${getBadgeStyle(conselho.tipo)}`}>
                                     {conselho.tipo}
                                 </span>
-                                <span className="text-sm font-medium text-gray-500">{conselho.orgaoVinculado}</span>
                             </div>
                             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
                                 {conselho.nome}
@@ -99,32 +98,32 @@ export default function Conselho() {
                 </div>
             </section>
 
-            {/* Navegação de Abas Gestalt (Continuidade e Proximidade) */}
-            <section className="pt-12 pb-6 px-4 overflow-hidden">
-                <div className="max-w-7xl mx-auto flex justify-center overflow-x-auto no-scrollbar">
-                    <div className="inline-flex rounded-md shadow-sm" role="group">
-                        {tabs.map((tab, index) => {
-                            const isFirst = index === 0;
-                            const isLast = index === tabs.length - 1;
+            {/* Navegação de Abas Gestalt (Cards Independentes) */}
+            <section className="pt-12 pb-6 px-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-4" role="tablist">
+                        {tabs.map((tab) => {
                             const isActive = activeTab === tab.id;
 
                             return (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
+                                    role="tab"
+                                    aria-selected={isActive}
                                     className={`
-                                        flex items-center gap-2 px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors
-                                        border border-[#b3d4ff]
-                                        ${isFirst ? 'rounded-l-md' : '-ml-px'}
-                                        ${isLast ? 'rounded-r-md' : ''}
+                                        flex items-center gap-3 px-6 py-4 text-sm font-bold whitespace-nowrap transition-all duration-300
+                                        bg-white rounded-xl shadow-sm border
                                         ${isActive
-                                            ? 'bg-[#f8fbff] text-blue-600 border-[#2068b2] z-10'
-                                            : 'bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                                            ? 'text-[#0062ae] border-[#0062ae]/20 border-b-[6px] border-b-[#0062ae] -translate-y-1 shadow-md'
+                                            : 'text-gray-400 border-gray-100 hover:text-[#0062ae] hover:border-[#0062ae]/30 hover:shadow-md'
                                         }
-                                        focus:z-10 focus:ring-2 focus:ring-blue-500 focus:outline-none
+                                        focus:outline-none focus:ring-2 focus:ring-blue-100
                                     `}
                                 >
-                                    {tab.icon}
+                                    <div className={`p-1.5 rounded-lg transition-colors ${isActive ? 'bg-blue-100 text-[#0062ae]' : 'bg-gray-50 text-gray-400'}`}>
+                                        {tab.icon}
+                                    </div>
                                     {tab.label}
                                 </button>
                             );
