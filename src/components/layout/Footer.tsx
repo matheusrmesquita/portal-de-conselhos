@@ -14,6 +14,7 @@ const Footer = () => {
                     <h3 className="font-bold text-lg mb-4">Links Úteis</h3>
                     <ul className="space-y-2 text-sm text-blue-100">
                         <li><a href="#" className="hover:text-white transition-colors">Participa DF</a></li>
+                        <li><a href="#" className="hover:text-white transition-colors">Portal de Dados Abertos</a></li>
                         <li><a href="#" className="hover:text-white transition-colors">Controladoria Geral do DF</a></li>
                         <li><a href="#" className="hover:text-white transition-colors">Acessibilidade</a></li>
                     </ul>

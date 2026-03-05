@@ -6,50 +6,51 @@ import { conselhosMock, orgaosMock } from '../../utils/mockData';
 
 const HeaderGDF = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const navigate = useNavigate();
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        const term = searchTerm.trim();
-        if (term) {
-            const matchedConselho = conselhosMock.find(c => c.nome.toLowerCase() === term.toLowerCase());
-            const matchedOrgao = orgaosMock.find(o => o.toLowerCase() === term.toLowerCase());
+    const matchedConselhos = conselhosMock.filter(c =>
+        c.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchedOrgaos = orgaosMock.filter(o =>
+        o.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-            if (matchedConselho) {
-                navigate(`/conselho/${matchedConselho.id}`);
-            } else if (matchedOrgao) {
-                navigate(`/resultados?modo=orgao&orgao=${encodeURIComponent(matchedOrgao)}`);
-            } else {
-                // Ao digitar livremente, enviamos o termo como busca genérica
-                navigate(`/resultados?modo=ambos&conselho=${encodeURIComponent(term)}&orgao=${encodeURIComponent(term)}`);
-            }
-            // Limpa o campo após navegação
-            setSearchTerm('');
+    const hasSuggestions = (matchedConselhos.length > 0 || matchedOrgaos.length > 0) && searchTerm.trim().length > 0;
+
+    const handleSearch = (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
+        const term = searchTerm.trim();
+        if (!term) return;
+
+        const exactConselho = conselhosMock.find(c => c.nome.toLowerCase() === term.toLowerCase());
+        const exactOrgao = orgaosMock.find(o => o.toLowerCase() === term.toLowerCase());
+
+        if (exactConselho) {
+            navigate(`/conselho/${exactConselho.id}`);
+        } else if (exactOrgao) {
+            navigate(`/resultados?modo=orgao&orgao=${encodeURIComponent(exactOrgao)}`);
+        } else {
+            navigate(`/resultados?modo=ambos&conselho=${encodeURIComponent(term)}&orgao=${encodeURIComponent(term)}`);
         }
+        setSearchTerm('');
+        setShowSuggestions(false);
     };
 
     const [isAccessibilityMenuOpen, setIsAccessibilityMenuOpen] = useState(false);
     const [fontSize, setFontSize] = useState(1);
-    const [isHighContrast, setIsHighContrast] = useState(false);
 
     useEffect(() => {
-        // Inicializa estado de alto contraste se a classe já existir (caso seja recarregado)
-        setIsHighContrast(document.body.classList.contains('accessible-high-contrast'));
-
         // Inicializa estado da fonte
-        if (document.documentElement.classList.contains('accessible-font-xl')) {
+        const html = document.documentElement;
+        if (html.classList.contains('accessible-font-xl')) {
             setFontSize(3);
-        } else if (document.documentElement.classList.contains('accessible-font-lg')) {
+        } else if (html.classList.contains('accessible-font-lg')) {
             setFontSize(2);
         } else {
             setFontSize(1);
         }
     }, []);
-
-    const toggleHighContrast = () => {
-        document.body.classList.toggle('accessible-high-contrast');
-        setIsHighContrast(!isHighContrast);
-    };
 
     const handleFontSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = parseInt(e.target.value);
@@ -71,7 +72,7 @@ const HeaderGDF = () => {
                 <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-full">
                     <div className="flex items-center gap-4 lg:gap-6 font-medium overflow-x-auto whitespace-nowrap scrollbar-hide flex-1 pr-4">
                         <a href="#" className="hover:text-white transition-colors">Participa DF</a>
-                        <a href="#" className="hover:text-white transition-colors">Controle Social</a>
+                        <a href="#" className="hover:text-white transition-colors">Portal de Dados Abertos</a>
                         <a href="#" className="hover:text-white transition-colors">Transparência</a>
                         <a href="#" className="hover:text-white transition-colors">Ouvidoria</a>
                         <a href="#" className="hover:text-white transition-colors">Acesso a Informação</a>
@@ -114,18 +115,17 @@ const HeaderGDF = () => {
                                     </div>
                                 </div>
 
-                                {/* Toggle de Alto Contraste (Fundo Azul) */}
+                                {/* Toggle de Alto Contraste (Fundo Azul) - Funcionalidade removida conforme pedido */}
                                 <div
-                                    className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${isHighContrast ? 'bg-[#00418c]' : 'bg-[#0062ae]'} hover:bg-[#00418c]`}
-                                    onClick={toggleHighContrast}
+                                    className="p-4 flex items-center gap-3 cursor-default bg-[#0062ae] hover:bg-[#00418c] transition-colors"
                                 >
                                     {/* Botão Tipo Toggle Switch Estilizado */}
-                                    <div className={`relative w-8 h-4 rounded-full transition-colors ${isHighContrast ? 'bg-white/40' : 'bg-black/20'} shadow-inner`}>
-                                        <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform ${isHighContrast ? 'right-0.5' : 'left-0.5'}`}></div>
+                                    <div className="relative w-8 h-4 rounded-full bg-black/20 shadow-inner transition-colors">
+                                        <div className="absolute top-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform left-0.5"></div>
                                     </div>
 
                                     <span className="text-white text-sm font-bold">
-                                        Alto contraste {isHighContrast ? 'ligado' : 'desligado'}
+                                        Alto contraste desligado
                                     </span>
                                 </div>
                             </div>
@@ -156,21 +156,68 @@ const HeaderGDF = () => {
                         <form onSubmit={handleSearch} className="w-full relative group">
                             <input
                                 type="text"
-                                list="global-conselhos-list"
                                 placeholder="Buscar órgãos ou conselhos..."
                                 value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setShowSuggestions(true);
+                                }}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                                 className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0062ae] focus:bg-white transition-all text-gray-800 placeholder:text-gray-400"
                             />
-                            <datalist id="global-conselhos-list">
-                                {orgaosMock.map(o => (
-                                    <option key={o} value={o} />
-                                ))}
-                                {conselhosMock.map(c => (
-                                    <option key={c.id} value={c.nome} />
-                                ))}
-                            </datalist>
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-[#0062ae] bg-transparent transition-colors z-10" aria-label="Pesquisar">
+
+                            {showSuggestions && hasSuggestions && (
+                                <div className="absolute top-full left-0 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto">
+                                    {matchedConselhos.length > 0 && (
+                                        <div className="p-2">
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 mb-1 block">Conselhos</span>
+                                            {matchedConselhos.map(c => (
+                                                <button
+                                                    key={c.id}
+                                                    type="button"
+                                                    className="w-full text-left px-3 py-2 hover:bg-gray-50 text-gray-700 text-sm font-medium transition-colors rounded-md flex items-center gap-2"
+                                                    onClick={() => {
+                                                        setSearchTerm(c.nome);
+                                                        navigate(`/conselho/${c.id}`);
+                                                        setShowSuggestions(false);
+                                                    }}
+                                                >
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-gdf-blue"></div>
+                                                    {c.nome}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {matchedOrgaos.length > 0 && (
+                                        <div className="p-2 border-t border-gray-50">
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 mb-1 block">Órgãos</span>
+                                            {matchedOrgaos.map(o => (
+                                                <button
+                                                    key={o}
+                                                    type="button"
+                                                    className="w-full text-left px-3 py-2 hover:bg-gray-50 text-gray-700 text-sm font-medium transition-colors rounded-md flex items-center gap-2"
+                                                    onClick={() => {
+                                                        setSearchTerm(o);
+                                                        navigate(`/resultados?modo=orgao&orgao=${encodeURIComponent(o)}`);
+                                                        setShowSuggestions(false);
+                                                    }}
+                                                >
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                                                    {o}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                disabled={!searchTerm.trim()}
+                                className={`absolute right-2 top-1/2 -translate-y-1/2 p-1.5 transition-colors z-10 ${searchTerm.trim() ? 'text-[#0062ae] hover:text-[#00418c]' : 'text-gray-300 cursor-not-allowed'}`}
+                                aria-label="Pesquisar"
+                            >
                                 <Search className="w-4 h-4" />
                             </button>
                         </form>

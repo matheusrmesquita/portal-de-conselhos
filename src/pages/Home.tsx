@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import HeroSearch from '../components/HeroSearch';
 import InfoModal from '../components/InfoModal';
-import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 import heroImage from '../assets/Imagem hero.jpg';
 import CountUp from 'react-countup';
 
@@ -13,7 +10,7 @@ export default function Home() {
     return (
         <main className="flex-1 bg-gray-50 flex flex-col">
             {/* Hero Section */}
-            <section className="relative text-white pt-24 pb-32 px-4 flex items-center justify-center min-h-[400px]">
+            <section className="relative text-white pt-32 pb-44 px-4 flex items-center justify-center min-h-[550px]">
                 {/* Background Image - Imagem representativa de Brasília/DF */}
                 <div
                     className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
@@ -23,28 +20,33 @@ export default function Home() {
                 <div className="absolute inset-0 z-0 bg-gray-900/75 mix-blend-multiply"></div>
 
                 <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 w-full">
-                    <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight drop-shadow-md">
-                        Consulta Pública de Conselhos do DF
+                    <h2 className="text-3xl md:text-5xl font-extrabold mb-8 tracking-tight leading-tight drop-shadow-md">
+                        Transparência e Participação nos Conselhos do DF
                     </h2>
-                    <p className="text-gray-100 max-w-3xl mx-auto mb-10 text-lg md:text-xl font-light drop-shadow">
-                        Acompanhe as decisões, legislações e atas dos conselhos distritais e participe ativamente do controle social.
-                    </p>
-
-                    <div className="flex justify-center mb-6">
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="group flex items-center gap-3 px-5 py-2.5 bg-[#0062ae] hover:bg-[#00418c] rounded-full transition-all duration-300 shadow-lg border border-transparent hover:border-blue-300"
-                        >
-                            <div className="flex items-center justify-center border border-white/40 rounded-full w-5 h-5 transition-colors">
-                                <span className="text-white text-[10px] font-bold">i</span>
-                            </div>
-                            <span className="text-white font-medium text-sm tracking-wide">
-                                Entenda os tipos de conselho
-                            </span>
-                        </button>
+                    <div className="text-gray-100 max-w-4xl mx-auto text-lg md:text-xl font-light drop-shadow leading-relaxed space-y-4 mb-10">
+                        <p>
+                            Aqui você encontra informações sobre os conselhos do Governo do Distrito Federal, como:
+                            atribuições, decisões, atas, pautas, calendário de reuniões, membros e formas de contato.
+                        </p>
+                        <p className="font-medium text-white">
+                            Juntos por um DF cada vez melhor para todos!
+                        </p>
                     </div>
 
-                    <HeroSearch />
+                    <button
+                        onClick={() => {
+                            const element = document.getElementById('busca');
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth' });
+                                setTimeout(() => setIsModalOpen(true), 800);
+                            }
+                        }}
+                        className="bg-white text-gdf-blue hover:bg-gray-50 px-10 py-4 rounded-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95 text-lg flex items-center justify-center gap-2 border border-white/20 hover:border-white/40"
+                    >
+                        <span className="font-bold tracking-tight">
+                            Entenda os tipos de conselho
+                        </span>
+                    </button>
                 </div>
             </section>
 
@@ -115,54 +117,79 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Listagem Rápida */}
-            <section className="px-4 pt-16 pb-32 max-w-7xl mx-auto w-full">
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-8 bg-[#0062ae] rounded-full"></div>
-                        <h3 className="text-2xl font-bold text-[#0062ae] hc-black-on-yellow">Conselhos em Destaque</h3>
+            {/* Seção Controle Social - Estilização Premium Athos Bulcão Style */}
+            <section className="relative bg-gdf-blue py-20 px-4 overflow-hidden shadow-2xl border-y border-white/10">
+                {/* Padrão Athos Bulcão Visual Overlay */}
+                <div className="absolute inset-0 z-0 opacity-[0.07] pointer-events-none select-none">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="athosPattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+                                <rect width="120" height="120" fill="none" />
+                                <circle cx="30" cy="30" r="15" fill="white" />
+                                <rect x="70" y="10" width="30" height="30" fill="white" transform="rotate(45 85 25)" />
+                                <rect x="20" y="80" width="40" height="10" fill="white" />
+                                <path d="M90 70 L110 90 L90 110 Z" fill="white" />
+                                <circle cx="100" cy="40" r="8" fill="white" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#athosPattern)" />
+                    </svg>
+                </div>
+
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                    <div className="text-center md:text-left space-y-4">
+                        <h3 className="text-white text-4xl md:text-5xl font-bold tracking-tight leading-tight drop-shadow-lg">
+                            Controle Social
+                        </h3>
+                        <p className="text-blue-50/80 text-lg md:text-xl font-light max-w-xl leading-relaxed">
+                            Fortaleça a transparência pública participando ativamente das decisões que constroem um DF melhor.
+                        </p>
                     </div>
-                    <Link to="/resultados" className="flex items-center gap-2 text-[#0062ae] hover:text-[#00418c] font-medium transition-colors hc-black-on-yellow">
-                        Ver todos
-                        <ArrowRight size={18} />
-                    </Link>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {conselhosMock.slice(0, 6).map(conselho => (
-                        <Link
-                            to={`/conselho/${conselho.id}`}
-                            key={conselho.id}
-                            className="group bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-100 transition-all flex flex-col h-full"
+                    <div className="relative group">
+                        <a
+                            href="https://controlesocial.cg.df.gov.br/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-white text-gdf-blue hover:bg-gray-50 px-14 py-4 rounded-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95 text-lg flex items-center justify-center gap-2 border border-white/20 hover:border-white/40"
                         >
-                            <div className="flex justify-between items-start mb-4">
-                                <span className={`text-[10px] font-bold px-3 py-1 rounded-full border uppercase tracking-wide ${getBadgeStyle(conselho.tipo)}`}>
-                                    {conselho.tipo}
-                                </span>
-                            </div>
-                            <h4 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-[#0062ae] transition-colors">
-                                {conselho.nome}
-                            </h4>
-                            <p className="text-sm text-gray-500 mb-6 flex-1 line-clamp-3">
-                                {conselho.descricao}
-                            </p>
-
-                            <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between text-sm">
-                                <span className="text-gray-400 font-medium truncate pr-4">
-                                    {conselho.orgaoVinculado}
-                                </span>
-                                <span className="text-[#0062ae] font-semibold group-hover:translate-x-1 transition-transform bg-[#0062ae]/5 p-2 rounded-full group-hover:bg-[#0062ae]/10">
-                                    <ArrowRight className="h-4 w-4" />
-                                </span>
-                            </div>
-                        </Link>
-                    ))}
+                            Acessar
+                        </a>
+                    </div>
                 </div>
 
-                <div className="mt-8 text-center md:hidden">
-                    <Link to="/resultados" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
-                        Ver todos os conselhos <ArrowRight className="h-4 w-4" />
-                    </Link>
+                {/* Detalhe Geométrico Flutuante Sutil */}
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white rounded-full opacity-5 blur-3xl"></div>
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-white rounded-full opacity-5 blur-3xl"></div>
+            </section>
+
+            {/* Nova Seção de Busca (Substituindo Listagem Rápida) */}
+            <section id="busca" className="px-4 py-28 bg-white border-t border-gray-100">
+                <div className="max-w-4xl mx-auto w-full text-center">
+                    <div className="mb-12">
+                        <h3 className="text-3xl md:text-4xl font-bold text-[#0062ae] mb-6">Localize um Conselho</h3>
+                        <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
+                            Encontre informações detalhadas sobre as instituições do Distrito Federal utilizando os filtros abaixo para uma pesquisa precisa.
+                        </p>
+                    </div>
+
+                    <div className="flex justify-center mb-12">
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="group flex items-center gap-3 px-6 py-3 bg-[#0062ae] hover:bg-[#00418c] rounded-full transition-all duration-300 shadow-lg border border-transparent hover:border-blue-300"
+                        >
+                            <div className="flex items-center justify-center border border-white/40 rounded-full w-5 h-5 transition-colors">
+                                <span className="text-white text-[10px] font-bold">i</span>
+                            </div>
+                            <span className="text-white font-medium text-base tracking-wide">
+                                Entenda os tipos de conselho
+                            </span>
+                        </button>
+                    </div>
+
+                    <div className="relative">
+                        <HeroSearch />
+                    </div>
                 </div>
             </section>
 
