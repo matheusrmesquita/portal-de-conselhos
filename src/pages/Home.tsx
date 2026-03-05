@@ -30,9 +30,7 @@ export default function Home() {
                         Acompanhe as decisões, legislações e atas dos conselhos distritais e participe ativamente do controle social.
                     </p>
 
-                    <HeroSearch />
-
-                    <div className="flex justify-center mt-6">
+                    <div className="flex justify-center mb-6">
                         <button
                             onClick={() => setIsModalOpen(true)}
                             className="group flex items-center gap-3 px-5 py-2.5 bg-[#0062ae] hover:bg-[#00418c] rounded-full transition-all duration-300 shadow-lg border border-transparent hover:border-blue-300"
@@ -45,6 +43,8 @@ export default function Home() {
                             </span>
                         </button>
                     </div>
+
+                    <HeroSearch />
                 </div>
             </section>
 

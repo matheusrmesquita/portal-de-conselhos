@@ -19,6 +19,7 @@ export default function SearchResults() {
 
     useEffect(() => {
         let filtered = [...conselhosMock];
+        const query = searchParams.get('q') || '';
 
         if (modo === 'orgao' && orgao) {
             filtered = filtered.filter(c => c.orgaoVinculado.toLowerCase().includes(orgao.toLowerCase()));
@@ -27,6 +28,20 @@ export default function SearchResults() {
         } else if (modo === 'ambos') {
             if (orgao) filtered = filtered.filter(c => c.orgaoVinculado.toLowerCase().includes(orgao.toLowerCase()));
             if (conselho) filtered = filtered.filter(c => c.nome.toLowerCase().includes(conselho.toLowerCase()));
+            if (query) {
+                filtered = filtered.filter(c =>
+                    c.nome.toLowerCase().includes(query.toLowerCase()) ||
+                    c.orgaoVinculado.toLowerCase().includes(query.toLowerCase())
+                );
+            }
+        }
+
+        // Caso especial: busca sem filtros de chip mas com termo textual
+        if (!orgao && !conselho && query) {
+            filtered = filtered.filter(c =>
+                c.nome.toLowerCase().includes(query.toLowerCase()) ||
+                c.orgaoVinculado.toLowerCase().includes(query.toLowerCase())
+            );
         }
 
         // Ordenação Padrão A-Z (EP04)
@@ -74,10 +89,7 @@ export default function SearchResults() {
 
                     {/* Busca Avançada (HeroSearch) e Botão Modal */}
                     <div className="relative z-30 mb-8 max-w-4xl mx-auto flex flex-col items-center">
-                        <div className="w-full">
-                            <HeroSearch />
-                        </div>
-                        <div className="mt-4 flex justify-center pb-2">
+                        <div className="mb-6 flex justify-center">
                             <button
                                 onClick={() => setIsModalOpen(true)}
                                 className="flex items-center gap-2 px-6 py-2.5 bg-[#0062ae] hover:bg-[#00418c] text-white rounded-full font-medium transition-colors shadow-sm focus:ring-4 focus:ring-blue-100"
@@ -85,6 +97,9 @@ export default function SearchResults() {
                                 <Info className="h-4 w-4" />
                                 Entenda os tipos de conselho
                             </button>
+                        </div>
+                        <div className="w-full">
+                            <HeroSearch isLight={true} />
                         </div>
                         <InfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                     </div>
