@@ -4,10 +4,12 @@ import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Conselho from './pages/Conselho';
 import SearchResults from './pages/SearchResults';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <HeaderGDF />
       <Routes>
         <Route path="/" element={<Home />} />
