@@ -23,7 +23,7 @@ export default function Home() {
                     <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-semibold mb-8 tracking-tight leading-tight drop-shadow-md">
                         Transparência e Participação nos Conselhos do DF
                     </h2>
-                    <div className="text-gray-100 max-w-4xl mx-auto text-lg md:text-xl font-light drop-shadow leading-relaxed space-y-4 mb-10">
+                    <div className="text-gray-100 max-w-4xl mx-auto text-lg md:text-xl font-normal drop-shadow leading-relaxed space-y-4 mb-10">
                         <p>
                             Aqui você encontra informações sobre os conselhos do Governo do Distrito Federal, como:
                             atribuições, decisões, atas, pautas, calendário de reuniões, membros e formas de contato.
@@ -141,7 +141,7 @@ export default function Home() {
                         <h3 className="text-white text-4xl md:text-5xl font-bold tracking-tight leading-tight drop-shadow-lg">
                             Controle Social
                         </h3>
-                        <p className="text-blue-50/80 text-lg md:text-xl font-light max-w-xl leading-relaxed">
+                        <p className="text-blue-50/80 text-lg md:text-xl font-normal max-w-xl leading-relaxed">
                             Fortaleça a transparência pública participando ativamente das decisões que constroem um DF melhor.
                         </p>
                     </div>
@@ -168,7 +168,7 @@ export default function Home() {
                 <div className="max-w-4xl mx-auto w-full text-center">
                     <div className="mb-12">
                         <h3 className="text-3xl md:text-4xl font-bold text-[#0062ae] mb-6">Localize um Conselho</h3>
-                        <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
+                        <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-normal">
                             Encontre informações detalhadas sobre as instituições do Distrito Federal utilizando os filtros abaixo para uma pesquisa precisa.
                         </p>
                     </div>

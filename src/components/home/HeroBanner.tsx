@@ -18,7 +18,7 @@ export const HeroBanner = () => {
                 <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight drop-shadow-md">
                     Consulta Pública de Conselhos do DF
                 </h2>
-                <p className="text-gray-100 max-w-3xl mx-auto mb-10 text-lg md:text-xl font-light drop-shadow">
+                <p className="text-gray-100 max-w-3xl mx-auto mb-10 text-lg md:text-xl font-normal drop-shadow">
                     Acompanhe as decisões, legislações e atas dos conselhos distritais e participe ativamente do controle social.
                 </p>
 
