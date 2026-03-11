@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Building2, Users } from 'lucide-react';
+import { Building2, Users } from 'lucide-react';
 import { conselhosMock, orgaosMock } from '../utils/mockData';
 
 type SearchMode = 'orgao' | 'conselho';
@@ -13,22 +13,6 @@ export default function HeroSearch() {
     const [showConselhoSuggestions, setShowConselhoSuggestions] = useState(false);
 
     const navigate = useNavigate();
-
-    const isSearchDisabled = mode === 'orgao' ? !orgaoTerm.trim() : !conselhoTerm.trim();
-
-    const handleSearch = () => {
-        if (isSearchDisabled) return;
-
-        const params = new URLSearchParams();
-        params.append('modo', mode);
-        if (mode === 'orgao' && orgaoTerm) {
-            params.append('orgao', orgaoTerm);
-        }
-        if (mode === 'conselho' && conselhoTerm) {
-            params.append('conselho', conselhoTerm);
-        }
-        navigate(`/resultados?${params.toString()}`);
-    };
 
     const filteredOrgaos = orgaosMock.filter(org =>
         org.toLowerCase().includes(orgaoTerm.toLowerCase())
@@ -81,6 +65,10 @@ export default function HeroSearch() {
                                         onClick={() => {
                                             setOrgaoTerm(org);
                                             setShowOrgaoSuggestions(false);
+                                            const params = new URLSearchParams();
+                                            params.append('modo', 'orgao');
+                                            params.append('orgao', org);
+                                            navigate(`/resultados?${params.toString()}`);
                                         }}
                                     >
                                         {org}
@@ -115,6 +103,7 @@ export default function HeroSearch() {
                                         onClick={() => {
                                             setConselhoTerm(c.nome);
                                             setShowConselhoSuggestions(false);
+                                            navigate(`/conselho/${c.id}`);
                                         }}
                                     >
                                         {c.nome}
@@ -124,15 +113,6 @@ export default function HeroSearch() {
                         )}
                     </div>
                 )}
-
-                <button
-                    onClick={handleSearch}
-                    disabled={isSearchDisabled}
-                    className={`bg-gdf-blue hover:bg-[#1a528e] text-white px-8 py-4 rounded-xl transition-all font-bold flex items-center justify-center gap-2 shadow-sm whitespace-nowrap active:scale-95 ${isSearchDisabled ? 'opacity-50 cursor-not-allowed uppercase' : 'focus:ring-2 focus:ring-offset-2 focus:ring-gdf-blue'}`}
-                    aria-label="Buscar"
-                >
-                    <Search className="h-5 w-5" /> Buscar
-                </button>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Download, Filter, Calendar, Users, FileText, Gavel, Scale, Info } from 'lucide-react';
+import { ArrowLeft, Download, Filter, Calendar, Users, FileText, Gavel, Scale, Info, Search } from 'lucide-react';
 import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 
 type TabType = 'legislacao' | 'reunioes' | 'atas' | 'membros' | 'decisoes';
@@ -60,9 +60,13 @@ export default function Conselho() {
                                     {conselho.tipo}
                                 </span>
                             </div>
-                            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
+                            <h1 className="text-[24px] md:text-[28px] font-semibold text-gray-900 tracking-tight leading-tight mb-2">
                                 {conselho.nome}
                             </h1>
+                            <p className="text-sm md:text-base text-gray-500 font-medium flex items-center gap-2">
+                                <span>Órgão responsável:</span>
+                                <span className="text-gray-700">{conselho.orgaoVinculado}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -383,7 +387,24 @@ export default function Conselho() {
                     </div>
                 )}
 
-
+                {/* Botão Nova Pesquisa Alinhado à Direita */}
+                <div className="mt-8 flex justify-end">
+                    <Link
+                        to="/#busca"
+                        className="bg-gdf-blue hover:bg-[#00418c] text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:-translate-y-1 active:scale-95 text-base flex items-center justify-center gap-2"
+                        onClick={() => {
+                            setTimeout(() => {
+                                const element = document.getElementById('busca');
+                                if (element) {
+                                    element.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }, 100);
+                        }}
+                    >
+                        <Search className="h-4 w-4" />
+                        Nova Pesquisa
+                    </Link>
+                </div>
             </section>
         </main>
     );

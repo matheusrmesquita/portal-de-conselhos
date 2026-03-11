@@ -20,7 +20,7 @@ export default function Home() {
                 <div className="absolute inset-0 z-0 bg-gray-900/75 mix-blend-multiply"></div>
 
                 <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 w-full">
-                    <h2 className="text-3xl md:text-5xl font-extrabold mb-8 tracking-tight leading-tight drop-shadow-md">
+                    <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-semibold mb-8 tracking-tight leading-tight drop-shadow-md">
                         Transparência e Participação nos Conselhos do DF
                     </h2>
                     <div className="text-gray-100 max-w-4xl mx-auto text-lg md:text-xl font-light drop-shadow leading-relaxed space-y-4 mb-10">
