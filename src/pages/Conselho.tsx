@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Download, Filter, Calendar, Users, FileText, Gavel, Scale, Info, Search } from 'lucide-react';
+import { ArrowLeft, Download, Filter, Calendar, Users, FileText, Gavel, Scale, Info, Search, Phone, Mail } from 'lucide-react';
 import { conselhosMock, getBadgeStyle } from '../utils/mockData';
 
 type TabType = 'legislacao' | 'reunioes' | 'atas' | 'membros' | 'decisoes';
@@ -76,7 +76,7 @@ export default function Conselho() {
             <section className="bg-white px-4 py-10 border-b border-gray-100">
                 <div className="max-w-7xl mx-auto">
                     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-100 border-b border-gray-100">
+                        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 border-b border-gray-100">
                             <div className="p-4 flex flex-col justify-center bg-gray-50/50">
                                 <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Tipo</span>
                                 <span className="text-sm font-semibold text-gray-800">{conselho.tipo}</span>
@@ -86,12 +86,28 @@ export default function Conselho() {
                                 <span className="text-sm font-semibold text-gray-800">{conselho.esfera}</span>
                             </div>
                             <div className="p-4 flex flex-col justify-center bg-gray-50/50">
-                                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Órgão</span>
-                                <span className="text-sm font-semibold text-gray-800">{conselho.orgaoVinculado}</span>
-                            </div>
-                            <div className="p-4 flex flex-col justify-center">
                                 <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Remunerado</span>
                                 <span className="text-sm font-semibold text-gray-800">{conselho.remunerado}</span>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 border-b border-gray-100">
+                            <div className="p-4 flex flex-col justify-center">
+                                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Órgão Vinculado</span>
+                                <span className="text-sm font-semibold text-gray-800">{conselho.orgaoVinculado}</span>
+                            </div>
+                            <div className="p-4 flex flex-col justify-center bg-gray-50/50">
+                                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">Telefone</span>
+                                <div className="flex items-center gap-2">
+                                    <Phone className="h-3.5 w-3.5 text-gdf-blue" />
+                                    <span className="text-sm font-semibold text-gray-800">{conselho.telefone || '(61) ----- ----'}</span>
+                                </div>
+                            </div>
+                            <div className="p-4 flex flex-col justify-center">
+                                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-1">E-mail</span>
+                                <div className="flex items-center gap-2">
+                                    <Mail className="h-3.5 w-3.5 text-gdf-blue" />
+                                    <span className="text-sm font-semibold text-gray-800 truncate" title={conselho.email}>{conselho.email || 'conselho@df.gov.br'}</span>
+                                </div>
                             </div>
                         </div>
                         <div className="p-5 lg:p-6 bg-white">

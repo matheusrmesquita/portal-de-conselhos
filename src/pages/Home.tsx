@@ -38,13 +38,12 @@ export default function Home() {
                             const element = document.getElementById('busca');
                             if (element) {
                                 element.scrollIntoView({ behavior: 'smooth' });
-                                setTimeout(() => setIsModalOpen(true), 800);
                             }
                         }}
                         className="bg-white text-gdf-blue hover:bg-gray-50 px-10 py-4 rounded-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95 text-lg flex items-center justify-center gap-2 border border-white/20 hover:border-white/40"
                     >
                         <span className="font-bold tracking-tight">
-                            Entenda os tipos de conselho
+                            Localize os conselhos
                         </span>
                     </button>
                 </div>

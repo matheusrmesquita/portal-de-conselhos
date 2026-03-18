@@ -1,41 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoGdf from '../../assets/Logo GDF.png';
-import { conselhosMock, orgaosMock } from '../../utils/mockData';
 
 const HeaderGDF = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    const navigate = useNavigate();
-
-    const matchedConselhos = conselhosMock.filter(c =>
-        c.nome.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    const matchedOrgaos = orgaosMock.filter(o =>
-        o.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const hasSuggestions = (matchedConselhos.length > 0 || matchedOrgaos.length > 0) && searchTerm.trim().length > 0;
-
-    const handleSearch = (e?: React.FormEvent) => {
-        if (e) e.preventDefault();
-        const term = searchTerm.trim();
-        if (!term) return;
-
-        const exactConselho = conselhosMock.find(c => c.nome.toLowerCase() === term.toLowerCase());
-        const exactOrgao = orgaosMock.find(o => o.toLowerCase() === term.toLowerCase());
-
-        if (exactConselho) {
-            navigate(`/conselho/${exactConselho.id}`);
-        } else if (exactOrgao) {
-            navigate(`/resultados?modo=orgao&orgao=${encodeURIComponent(exactOrgao)}`);
-        } else {
-            navigate(`/resultados?modo=ambos&conselho=${encodeURIComponent(term)}&orgao=${encodeURIComponent(term)}`);
-        }
-        setSearchTerm('');
-        setShowSuggestions(false);
-    };
 
     const [isAccessibilityMenuOpen, setIsAccessibilityMenuOpen] = useState(false);
     const [fontSize, setFontSize] = useState(1);
@@ -147,81 +114,10 @@ const HeaderGDF = () => {
 
                         <div className="sm:ml-2 sm:pl-6 sm:border-l sm:border-gray-200 hidden sm:block">
                             <h1 className="text-[22px] font-extrabold text-[#0062ae] tracking-tight leading-none mb-1 group-hover:text-[#00418c] transition-colors">Portal dos Conselhos</h1>
-                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">Controladoria Geral do DF</p>
+                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">Governo do Distrito Federal</p>
                         </div>
                     </Link>
 
-                    {/* Busca Textual Global */}
-                    <div className="w-full md:w-80 lg:w-96 flex relative">
-                        <form onSubmit={handleSearch} className="w-full relative group">
-                            <input
-                                type="text"
-                                placeholder="Buscar órgãos ou conselhos..."
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setShowSuggestions(true);
-                                }}
-                                onFocus={() => setShowSuggestions(true)}
-                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                                className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0062ae] focus:bg-white transition-all text-gray-800 placeholder:text-gray-400"
-                            />
-
-                            {showSuggestions && hasSuggestions && (
-                                <div className="absolute top-full left-0 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-2xl z-[100] max-h-80 overflow-y-auto">
-                                    {matchedConselhos.length > 0 && (
-                                        <div className="p-2">
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 mb-1 block">Conselhos</span>
-                                            {matchedConselhos.map(c => (
-                                                <button
-                                                    key={c.id}
-                                                    type="button"
-                                                    className="w-full text-left px-3 py-2 hover:bg-gray-50 text-gray-700 text-sm font-medium transition-colors rounded-md flex items-center gap-2"
-                                                    onClick={() => {
-                                                        setSearchTerm(c.nome);
-                                                        navigate(`/conselho/${c.id}`);
-                                                        setShowSuggestions(false);
-                                                    }}
-                                                >
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-gdf-blue"></div>
-                                                    {c.nome}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                    {matchedOrgaos.length > 0 && (
-                                        <div className="p-2 border-t border-gray-50">
-                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 mb-1 block">Órgãos</span>
-                                            {matchedOrgaos.map(o => (
-                                                <button
-                                                    key={o}
-                                                    type="button"
-                                                    className="w-full text-left px-3 py-2 hover:bg-gray-50 text-gray-700 text-sm font-medium transition-colors rounded-md flex items-center gap-2"
-                                                    onClick={() => {
-                                                        setSearchTerm(o);
-                                                        navigate(`/resultados?modo=orgao&orgao=${encodeURIComponent(o)}`);
-                                                        setShowSuggestions(false);
-                                                    }}
-                                                >
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
-                                                    {o}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={!searchTerm.trim()}
-                                className={`absolute right-2 top-1/2 -translate-y-1/2 p-1.5 transition-colors z-10 ${searchTerm.trim() ? 'text-[#0062ae] hover:text-[#00418c]' : 'text-gray-300 cursor-not-allowed'}`}
-                                aria-label="Pesquisar"
-                            >
-                                <Search className="w-4 h-4" />
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </header>
