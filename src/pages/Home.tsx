@@ -17,7 +17,7 @@ export default function Home() {
                     style={{ backgroundImage: `url(${heroImage})` }}
                 ></div>
                 {/* Overlay Escuro Configurável para Acessibilidade AA */}
-                <div className="absolute inset-0 z-0 bg-gray-900/75 mix-blend-multiply"></div>
+                <div className="absolute inset-0 z-0 bg-gray-900/40 mix-blend-multiply"></div>
 
                 <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 w-full">
                     <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-semibold mb-8 tracking-tight leading-tight drop-shadow-md">
